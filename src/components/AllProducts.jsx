@@ -7,28 +7,24 @@ const AllProducts = () => {
 
     const [productList, setProductList] = useState([]); //this is where we will set the info in our DB
 
+    let gone = false;
 
-    // const detailsHandler = (e) => {
-    //     e.preventDefault();
-    //     axios.get('http://localhost:8000/api/products/:id')
-    //     .then(res => console.log(res, 'we clicky the details'))
-    //     .catch(err => console.log(err, 'error'))
-    // }
-
-
-    // const deleteHandler = (deleteId) => {
-    //     e.preventDefault();
+    const deleteHandler = (deleteId) => {
         
-    //     axios.delete(`http://localhost:8000/api/products/delete/:id`)
-    //     .then(res => console.log(res, "deleted"))
-    //     .catch(err => console.log(err))
-    // }
+        axios.delete(`http://localhost:8000/api/products/delete/${deleteId}`)
+        .then(res => {
+            console.log(res, "deleted")
+            gone = !gone;
+        })
+        .catch(err => console.log(err, "errroororeoreoeroireohkjfdsgh"))
+    }
 
     useEffect(() => {
     axios.get('http://localhost:8000/api/products')
     .then(res => {setProductList(res.data.results)}) // 
     .catch(err => console.log(err, 'error'))
-    }, []);
+    }, [gone]);
+
     return (
         <div>
             <h1>All Products:</h1>
@@ -40,7 +36,8 @@ const AllProducts = () => {
                             }
                             <h3><Link to={`/products/${productObj._id}`}>{productObj.title}</Link></h3>   
                         </div>
-                    <button>Delete</button>
+                    <button className="btn mt-3" onClick={() =>deleteHandler(productObj._id)}>DELETE</button>
+                    <button className="btn mt-3">Edit</button>
                     </div>
                 )
             })}

@@ -9,12 +9,26 @@ const DisplayOne = () => {
 
     const [product, setProduct] = useState({});
 
+    let gone = false;
+
+    const deleteHandler = (deleteId) => {
+        
+        axios.delete(`http://localhost:8000/api/products/delete/${deleteId}`)
+        .then(res => {
+            console.log(res, "deleted")
+            gone = !gone;
+        })
+        .catch(err => console.log(err, "errroororeoreoeroireohkjfdsgh"))
+    }
+
     useEffect(() => {
         axios.get(`http://localhost:8000/api/products/${id}`)
-            // .then(res => console.log("response for one ninja", res.data.results))   ---not allowing me to use both .thens, don't understand why
-            .then(res => setProduct(res.data.results))
+            .then(res => {
+                console.log(res.data.results);         // must return res in order to put 2 .thens or you can put information in an obj
+                setProduct(res.data.results)
+            })
             .catch(err => console.log(err, "there's an error in my console"))
-    }, []); // need empty array in useEffect so it doesn't continue to call the function
+    }, [gone]); // need empty array in useEffect so it doesn't continue to call the function
 
     return (
         <div>
@@ -23,6 +37,7 @@ const DisplayOne = () => {
             <p>Title: {product.title}</p>
             <p>Price: {product.price}</p>
             <p>Description: {product.description}</p>
+            <button className="btn mt-3" onClick={() =>deleteHandler(id)}>DELETE</button>
         </div>
 
     )
