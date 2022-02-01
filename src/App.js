@@ -1,17 +1,26 @@
 import './App.css';
-import {BrowserRouter, Link, Switch, Route} from 'react-router-dom'
-import Display from './components/Display';
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import Form from './components/Form';
+import AllProducts from './components/AllProducts';
+import DisplayOne from './components/DisplayOne';
 
 function App() {
   return (
-    <BrowserRouter>
-    <div className="App">
-      <h1>Product Manager</h1>
-      <Switch>
-      <Display/>
-      </Switch>
-    </div>
-    </BrowserRouter>
+      <div className="App">
+        <BrowserRouter>
+        <h1>Product Manager</h1>
+        <Switch>
+          <Route exact path="/">
+            <Form/>
+            <hr/>
+            <AllProducts/>
+          </Route>
+          <Route exact path='/products/:id'>
+            <DisplayOne/>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+      </div>
   );
 }
 

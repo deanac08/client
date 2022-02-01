@@ -1,19 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-
-const Display = () => {
+const Form = () => {
 
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
+    const history = useHistory();
+
     const onSubHandler = (e) => {
-        e.preventDefault();
         
         axios.post('http://localhost:8000/api/products/new', {title, price, description})
         .then(res => console.log(res, "submitted"))
         .catch(err => console.log(err))
+
+        console.log("Form submitted");
+        // history.push('/')
     }
 
     return(
@@ -35,4 +39,4 @@ const Display = () => {
     )
 }
 
-export default Display;
+export default Form;
